@@ -21,15 +21,16 @@ function drawClassroom() {
     ctx.fillRect(0, 128, W, 4);
 
     ctx.fillStyle = '#5a3d24';
-    ctx.fillRect(40, 12, 240, 78);
+    ctx.fillRect(16, 6, 288, 44);
     ctx.fillStyle = '#26382f';
-    ctx.fillRect(44, 16, 232, 70);
+    ctx.fillRect(20, 10, 280, 36);
+
     ctx.fillStyle = '#e8e8e0';
-    ctx.font = 'bold 18px monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('CHAOSLAB', W / 2, 46);
-    ctx.font = '9px monospace';
-    ctx.fillText('Safety goggles are recommended.', W / 2, 64);
+    ctx.font = '16px "Press Start 2P"';
+    ctx.fillText('CHAOSLAB', W / 2, 28);
+    ctx.font = '8px "Press Start 2P"';
+    ctx.fillText('Safety goggles are recommended.', W / 2, 42);
 }
 
 function frame(t) {
@@ -42,4 +43,7 @@ function frame(t) {
     requestAnimationFrame(frame);
 }
 
-requestAnimationFrame(frame);
+document.fonts.load('16px "Press Start 2P"').then(
+    () => requestAnimationFrame(frame),
+    () => requestAnimationFrame(frame)
+);
