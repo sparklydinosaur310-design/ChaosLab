@@ -1,4 +1,4 @@
-import { TEACHER_SPRITE } from './sprites/teacherSprites.js';
+import { TEACHER_SPRITES } from './sprites/teacherSprites.js';
 import { drawSprite } from './sprites/drawSprite.js';
 
 const canvas = document.getElementById('game');
