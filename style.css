@@ -1,0 +1,16 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    background: #14161f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#game {
+    width: min(100vw, 177.78vh);
+    height: auto;
+    aspect-ratio: 16 / 9;
+    image-rendering: pixelated;
+    background: #000;
+}
