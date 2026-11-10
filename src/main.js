@@ -1,6 +1,7 @@
 import { TEACHER_SPRITES } from './sprites/teacherSprites.js';
 import { drawSprite } from './sprites/drawSprite.js';
-import { drawPeriodicTable, getElementAt } from './ui/periodicTable.js';
+import { drawPeriodicTable, getElementAt, isOnTakeButton } from './ui/periodicTable.js';
+import { drawTray, getTraySlotAt, TRAY_MAX } from './ui/tray.js';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -37,6 +38,8 @@ function drawClassroom() {
 let scene = 'classroom';
 let hovered = null;
 let selected = null;
+let mouse = { x: -1, y: -1 };
+const tray = [];
 
 function toCanvas(e) {
     const r = canvas.getBoundingClientRect();
@@ -48,6 +51,7 @@ function toCanvas(e) {
 
 canvas.addEventListener('mousemove', (e) => {
     const p = toCanvas(e);
+    mouse = p;
     hovered = scene === 'lab' ? getElementAt(p.x, p.y) : null;
 });
 
@@ -57,7 +61,15 @@ canvas.addEventListener('click', (e) => {
         scene = 'lab';
         hovered = getElementAt(p.x, p.y);
     } else {
-        selected = getElementAt(p.x, p.y) || selected;
+        const el = getElementAt(p.x, p.y);
+        if (el) {
+            selected = el;
+        } else if (selected && isOnTakeButton(p.x, p.y) && tray.length < TRAY_MAX) {
+            tray.push(selected);
+        } else {
+            const slot = getTraySlotAt(p.x, p.y);
+            if (slot !== -1 && slot < tray.length) tray.splice(slot, 1);
+        }
     }
 });
 
@@ -80,7 +92,8 @@ function drawLab() {
     ctx.fillText('PERIODIC TABLE', 32, 18);
     ctx.fillText('ESC = BACK TO CLASS', 32, 348);
 
-    drawPeriodicTable(ctx, hovered, selected);
+    drawPeriodicTable(ctx, { hovered, selected, mouse, trayFull: tray.length >= TRAY_MAX });
+    drawTray(ctx, tray, mouse);
 }
 
 function frame(t) {
